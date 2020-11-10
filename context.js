@@ -9,7 +9,7 @@ module.exports = async ({ request }) => {
 
   const { hapikey } = request.query;
   const { authorization } = request.headers;
-  console.log(request);
+  console.log("request.query _:_ ",request.query);
   if (hapikey) {
     const hs = new HubspotAPI({ hapikey });
     Object.assign(ctx, { hs });

@@ -3,6 +3,7 @@ const qs = require('querystring');
 const { GraphQLServer } = require('graphql-yoga');
 const UnparsedObject = require('graphql-type-json');
 const Query = require('./query-resolvers');
+const Mutation = require('./mutation-resolvers');
 const context = require('./context');
 const typeDefs = require('./schemas/hubspot.graphql').typeDefs;
 const debug = require('debug')('hubspot-gql');
@@ -15,7 +16,7 @@ const { PORT: port, NODE_ENV } = process.env;
 
 // UnparsedObject is a base JSON object, and you should avoid using it if you can be
 // prescriptive about your schema.
-const resolvers = { Query, UnparsedObject };
+const resolvers = { Query,Mutation, UnparsedObject };
 const server = new GraphQLServer({
   typeDefs,
   resolvers,

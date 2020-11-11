@@ -90,6 +90,15 @@ let typeDefProps = {
   }
 };
 
+const mutationFields = [{
+  method: 'createContact',
+  arguments: {
+    firstname: 'String',
+    email: 'String'
+  },
+  returns: 'Contact!'
+}]
+
 const queryFields = [
   {
     method: 'page',
@@ -187,6 +196,10 @@ module.exports = {
 
     type Query {
       ${queryFields.map(extractQueryMethod).join('\r\n')}
+    }
+
+    type Mutation {
+      ${mutationFields.map(extractQueryMethod).join('\r\n')}
     }
 
     type Page {

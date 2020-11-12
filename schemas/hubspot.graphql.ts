@@ -61,9 +61,7 @@ let typeDefProps = {
     id: 'ID',
     name: 'String',
     type: 'String',
-    name: 'String',
     actions: 'UnparsedObject',
-    id: 'Int',
     description: 'String',
     enabled: 'Boolean',
     portalId: 'Int',
@@ -93,8 +91,8 @@ let typeDefProps = {
 const mutationFields = [{
   method: 'createContact',
   arguments: {
-    firstname: 'String',
-    email: 'String'
+    firstname: 'String!',
+    email: 'String!'
   },
   returns: 'Contact!'
 }]
@@ -168,7 +166,7 @@ const queryFields = [
   }
 ];
 
-const extractQueryMethod = qf => {
+const extractQueryMethod = (qf:any) => {
   // blogPosts(contentGroupId: ID!, blogAuthorId: Int, limit: Int!): [BlogPost!]!
   if (qf.arguments) {
     const argumentMap = Object.keys(qf.arguments).map(arg => `${arg}: ${qf.arguments[arg]}`).join(', ');
@@ -183,7 +181,7 @@ const blogAuthorFields = Object.keys(typeDefProps.blogAuthor);
 
 Object.keys(typeDefProps).forEach(typeDef => {
   Object.assign(typeDefProps, {
-    [typeDef]: Object.keys(typeDefProps[typeDef]).map(prop => `\t${prop}: ${typeDefProps[typeDef][prop]}`).join('\r\n')
+    [typeDef]: Object.keys((typeDefProps as any)[typeDef]).map(prop => `\t${prop}: ${(typeDefProps as any)[typeDef][prop]}`).join('\r\n')
   });
 });
 

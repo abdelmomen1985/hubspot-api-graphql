@@ -1,10 +1,11 @@
-const moment = require('moment');
-const HubspotAPI = require('hubspot-api');
+import moment from 'moment';
+import HubspotAPI from 'hubspot-api';
+import { Context } from 'graphql-yoga/dist/types';
 
-module.exports = async ({ request }) => {
+export default async ({ request }:any) => {
   const ctx = {
     timestamp: moment().valueOf()
-  };
+  } as Context;
   Object.assign(ctx, request.query);
 
   const { authorization, hapikey } = request.headers;

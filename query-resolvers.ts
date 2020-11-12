@@ -1,25 +1,24 @@
-const pjs = require('./package.json');
-const debug = require('debug')('hubspot-gql');
 
-const assertHasCredentials = ctx => {
+
+const assertHasCredentials = (ctx:any) => {
   if (!ctx.hs) {
     throw new Error('Credentials are required');
   }
 };
 
-const flattenProps = properties => Object.keys(properties).reduce((acc, curr) => {
+const flattenProps = (properties:any) => Object.keys(properties).reduce((acc:any, curr) => {
   acc[curr] = properties[curr].value;
   return acc;
 }, {});
 
-const contactsResponse = contact => {
+const contactsResponse = (contact:any) => {
   const {vid, properties} = contact;
   return Object.assign({
     vid
   }, flattenProps(properties));
 };
 
-const companiesResponse = company => {
+const companiesResponse = (company:any) => {
   const {portalId, properties, additionalDomains} = company;
   return Object.assign({
     portalId,
@@ -27,11 +26,9 @@ const companiesResponse = company => {
   }, flattenProps(properties));
 };
 
-module.exports = {
-  version: (_, opts, context) => {
-    return pjs.version;
-  },
-  contacts: async (_, opts, context) => {
+export default  {
+
+  contacts: async(_:any, opts:any, context:any) => {
     assertHasCredentials(context);
     const {hs} = context;
     // Define extra properties as required by the schema
@@ -41,7 +38,7 @@ module.exports = {
     const {contacts} = response;
     return contacts.map(contactsResponse);
   },
-  contact: async (_, opts, context) => {
+  contact: async(_:any, opts:any, context:any) => {
     assertHasCredentials(context);
     const {hs} = context;
     const {id, email, utk} = opts;
@@ -58,39 +55,39 @@ module.exports = {
     const {vid, properties} = response;
     return contactsResponse(response);
   },
-  blogAuthor: async (_, opts, context) => {
+  blogAuthor: async(_:any, opts:any, context:any) => {
     assertHasCredentials(context);
     const {hs} = context;
     const response = await hs.blog.getAuthor(opts.id);
     return response;
   },
-  blogAuthors: async (_, opts, context) => {
+  blogAuthors: async(_:any, opts:any, context:any) => {
     assertHasCredentials(context);
     const {hs} = context;
     const response = await hs.blog.getAuthors(opts);
     const {objects} = response;
     return objects;
   },
-  page: async (_, opts, context, {cacheControl}) => {
+  page: async(_:any, opts:any, context:any) => {
     assertHasCredentials(context);
     const {hs} = context;
     const response = await hs.pages.getPageById(opts.id);
     return response;
   },
-  pages: async (_, opts, context, {cacheControl}) => {
+  pages: async(_:any, opts:any, context:any) => {
     assertHasCredentials(context);
     const {hs} = context;
     const response = await hs.pages.getPages(opts);
     const {objects} = response;
     return objects;
   },
-  blogPost: async (_, opts, context) => {
+  blogPost: async(_:any, opts:any, context:any) => {
     assertHasCredentials(context);
     const {hs} = context;
     const response = await hs.blog.getPostById(opts);
     return response;
   },
-  blogPosts: async (_, opts, context) => {
+  blogPosts: async(_:any, opts:any, context:any) => {
     const {contentGroupId: content_group_id, blogAuthorId: blog_author_id, limit} = opts;
 
     assertHasCredentials(context);
@@ -99,7 +96,7 @@ module.exports = {
     const {objects} = response;
     return objects;
   },
-  workflows: async (_, opts, context) => {
+  workflows: async(_:any, opts:any, context:any) => {
     assertHasCredentials(context);
     const {hs} = context;
     const response = await hs.workflows.getAll();
@@ -109,11 +106,11 @@ module.exports = {
 
     return workflows;
   },
-  workflow: async (_, opts, context) => {
+  workflow: async(_:any, opts:any, context:any) => {
     assertHasCredentials(context);
     const {hs} = context;
     const response = await hs.workflows.getWorkflow(opts.id);
-    debug(response);
+    console.log(response);
     return response;
   }
 };

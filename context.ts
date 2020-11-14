@@ -1,7 +1,7 @@
 import moment from "moment";
 import HubspotAPI from "hubspot-api";
 import { Context } from "graphql-yoga/dist/types";
-
+import { Client } from "@hubspot/api-client";
 export default async ({ request }: any) => {
   const ctx = {
     timestamp: moment().valueOf(),
@@ -12,7 +12,8 @@ export default async ({ request }: any) => {
 
   if (hapikey) {
     const hs = new HubspotAPI({ hapikey });
-    Object.assign(ctx, { hs, hapikey });
+    const client = new Client({ apiKey: hapikey });
+    Object.assign(ctx, { hs, hapikey, client });
   } else if (authorization) {
     // Access Token passed as header in the format:
     /*

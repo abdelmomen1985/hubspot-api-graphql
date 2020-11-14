@@ -1,6 +1,7 @@
 import Axios from "axios";
 import HubSpotClient from "hubspot-api";
 import { APP_CONFIGS } from "./configs";
+import { CompanyProperties } from "./types/company";
 import { YogaContext } from "./types/custom";
 
 const assertHasCredentials = (ctx: { hs: HubSpotClient }) => {
@@ -41,5 +42,23 @@ export default {
     } catch (error) {
       console.error(error.response?.data);
     }
+  },
+  insert_company: async (_: any, req: any, { client }: YogaContext) => {
+    let properties = { ...req } as CompanyProperties;
+    let company = await client.crm.companies.basicApi.create({
+      properties,
+    });
+    return company.body;
+  },
+  update_company: async (_: any, req: any, { client }: YogaContext) => {
+    const {id} = req;
+    delete req.id;
+    let properties = { ...req } as CompanyProperties;
+    console.log("update_company",id, properties);
+    let updated = await client.crm.companies.basicApi.update(
+      ""+id,
+      { properties }
+    );
+    console.log(updated);
   },
 };

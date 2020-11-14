@@ -1,5 +1,6 @@
 import Axios from "axios";
 import { APP_CONFIGS } from "./configs";
+import { Company } from "./types/company";
 import { YogaContext } from "./types/custom";
 import HubSpotClient, { IHubSpotClientProps } from "./types/hubspot-api";
 
@@ -155,4 +156,18 @@ export default {
     console.log(resp);
   },
   */
+  companies: async (_: any, opts: any, { client }: YogaContext) => {
+    const companies = await client.crm.companies.getAll(100,undefined,["name_ar,name,description,domain,about_us,phone,linkedin_company_page"]);
+    const mapped = companies.map((company) => {
+      let newCompany = {
+        ...company,
+        properties: {
+          ...company.properties,
+          logo: `http://logo.clearbit.com/${company.properties.domain}`,
+        },
+      };
+      return newCompany;
+    });
+    return mapped;
+  },
 };

@@ -110,6 +110,21 @@ let typeDefProps = {
     updatedAt: "String",
     archived: "Boolean",
   },
+  companyProperties: {
+    name: "String",
+    name_ar: "String",
+    domain: "String",
+    phone: "String",
+    description: "String",
+    logo: "String"
+  },
+  company: {
+    id: "ID",
+    properties: "CompanyProperties",
+    createdAt: "String",
+    updatedAt: "String",
+    archived: "Boolean",
+  },
 };
 
 const mutationFields: GraphqlMethods[] = [
@@ -129,6 +144,27 @@ const mutationFields: GraphqlMethods[] = [
     },
     returns: "Ticket",
   },
+  {
+    method: "insert_company",
+    arguments: {
+      name: "String!",
+      name_ar: "String",
+      domain: "String",
+      phone: "String",
+    },
+    returns: "Company",
+  },
+  {
+    method: "update_company",
+    arguments: {
+      id:"ID!",
+      name: "String",
+      name_ar: "String",
+      domain: "String",
+      phone: "String",
+    },
+    returns: "Company"
+  }
 ];
 
 const queryFields: GraphqlMethods[] = [
@@ -216,6 +252,10 @@ const queryFields: GraphqlMethods[] = [
     method: "tickets",
     returns: "[Ticket!]!",
   },
+  {
+    method: "companies",
+    returns: "[Company!]!",
+  },
 ];
 
 const extractQueryMethod = (qf: any) => {
@@ -286,6 +326,14 @@ module.exports = {
 
     type Ticket {
       ${typeDefProps.ticket}
+    }
+
+    type CompanyProperties {
+      ${typeDefProps.companyProperties}
+    }
+
+    type Company {
+      ${typeDefProps.company}
     }
   `,
 };

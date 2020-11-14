@@ -9,167 +9,221 @@
 
 */
 
+type GraphqlMethods = {
+  method: string;
+  arguments?: any;
+  returns: string;
+};
 let typeDefProps = {
+  custom: {
+    id: "ID!",
+  },
   contact: {
-    vid: 'ID!',
-    firstname: 'String',
-    lastname: 'String',
-    email: 'String',
-    company: 'String'
+    vid: "ID!",
+    firstname: "String",
+    lastname: "String",
+    email: "String",
+    company: "String",
   },
   page: {
-    id: 'ID!',
-    name: 'String',
-    css_text: 'String',
-    widget_containers: 'UnparsedObject',
-    widgets: 'UnparsedObject'
+    id: "ID!",
+    name: "String",
+    css_text: "String",
+    widget_containers: "UnparsedObject",
+    widgets: "UnparsedObject",
   },
   blog: {
-    id: 'ID!',
-    title: 'String!',
-    post_body: 'String',
-    state: 'String',
-    blog_author_id: 'Int',
-    archived: 'Boolean!',
-    campaign: 'String',
-    campaign_name: 'String',
-    content_group_id: 'Int'
+    id: "ID!",
+    title: "String!",
+    post_body: "String",
+    state: "String",
+    blog_author_id: "Int",
+    archived: "Boolean!",
+    campaign: "String",
+    campaign_name: "String",
+    content_group_id: "Int",
   },
   blogAuthor: {
-    avatar: 'String',
-    bio: 'String',
-    created: 'Int',
-    deletedAt: 'Int',
-    displayName: 'String',
-    email: 'String',
-    facebook: 'String',
-    fullName: 'String!',
-    googlePlus: 'String',
-    gravatarUrl: 'String',
-    hasSocialProfiles: 'Boolean',
-    id: 'ID!',
-    linkedin: 'String',
-    portalId: 'Int',
-    slug: 'String',
-    twitter: 'String',
-    twitterUsername: 'String',
-    updated: 'Int',
-    username: 'String',
-    website: 'String'
+    avatar: "String",
+    bio: "String",
+    created: "Int",
+    deletedAt: "Int",
+    displayName: "String",
+    email: "String",
+    facebook: "String",
+    fullName: "String!",
+    googlePlus: "String",
+    gravatarUrl: "String",
+    hasSocialProfiles: "Boolean",
+    id: "ID!",
+    linkedin: "String",
+    portalId: "Int",
+    slug: "String",
+    twitter: "String",
+    twitterUsername: "String",
+    updated: "Int",
+    username: "String",
+    website: "String",
   },
   workflow: {
-    id: 'ID',
-    name: 'String',
-    type: 'String',
-    actions: 'UnparsedObject',
-    description: 'String',
-    enabled: 'Boolean',
-    portalId: 'Int',
-    isSegmentBased: 'Boolean',
-    listening: 'Boolean',
-    nurtureTimeRange: 'UnparsedObject',
-    onlyExecOnBizDays: 'Boolean',
-    insertedAt: 'Int',
-    updatedAt: 'Int',
-    recurringSetting: 'UnparsedObject',
-    enrollOnCriteriaUpdate: 'Boolean',
-    onlyEnrollsManually: 'Boolean',
-    creationSource: 'UnparsedObject',
-    updateSource: 'UnparsedObject',
-    allowContactToTriggerMultipleTimes: 'Boolean',
-    unenrollmentSetting: 'UnparsedObject',
-    segmentCriteria: 'UnparsedObject',
-    goalCriteria: 'UnparsedObject',
-    reEnrollmentTriggerSets: 'UnparsedObject',
-    triggerSets: 'UnparsedObject',
-    suppressionListIds: 'UnparsedObject',
-    lastUpdatedBy: 'String',
-    metaData: 'UnparsedObject'
-  }
+    id: "ID",
+    name: "String",
+    type: "String",
+    actions: "UnparsedObject",
+    description: "String",
+    enabled: "Boolean",
+    portalId: "Int",
+    isSegmentBased: "Boolean",
+    listening: "Boolean",
+    nurtureTimeRange: "UnparsedObject",
+    onlyExecOnBizDays: "Boolean",
+    insertedAt: "Int",
+    updatedAt: "Int",
+    recurringSetting: "UnparsedObject",
+    enrollOnCriteriaUpdate: "Boolean",
+    onlyEnrollsManually: "Boolean",
+    creationSource: "UnparsedObject",
+    updateSource: "UnparsedObject",
+    allowContactToTriggerMultipleTimes: "Boolean",
+    unenrollmentSetting: "UnparsedObject",
+    segmentCriteria: "UnparsedObject",
+    goalCriteria: "UnparsedObject",
+    reEnrollmentTriggerSets: "UnparsedObject",
+    triggerSets: "UnparsedObject",
+    suppressionListIds: "UnparsedObject",
+    lastUpdatedBy: "String",
+    metaData: "UnparsedObject",
+  },
+  ticketProperties: {
+    hs_pipeline: "String",
+    hs_pipeline_stage: "String",
+    hs_ticket_priority: "String",
+    hubspot_owner_id: "String",
+    entry_level: "String",
+    content: "String",
+    subject: "String",
+  },
+  ticket: {
+    id: "ID",
+    properties: "TicketProperties",
+    createdAt: "String",
+    updatedAt: "String",
+    archived: "Boolean",
+  },
 };
 
-const mutationFields = [{
-  method: 'createContact',
-  arguments: {
-    firstname: 'String!',
-    email: 'String!'
-  },
-  returns: 'Contact!'
-}]
-
-const queryFields = [
+const mutationFields: GraphqlMethods[] = [
   {
-    method: 'page',
+    method: "insert_contact",
     arguments: {
-      id: 'ID!'
+      firstname: "String!",
+      email: "String!",
     },
-    returns: 'Page!'
-  }, {
-    method: 'pages',
+    returns: "Contact!",
+  },
+  {
+    method: "insert_ticket",
     arguments: {
-      offset: 'Int',
-      limit: 'Int!'
+      subject: "String!",
+      content: "String",
     },
-    returns: '[Page!]!'
-  }, {
-    method: 'blogPosts',
-    arguments: {
-      contentGroupId: 'ID!',
-      blogAuthorId: 'Int',
-      limit: 'Int!'
-    },
-    returns: '[BlogPost!]!'
-  }, {
-    method: 'blogPost',
-    arguments: {
-      id: 'ID!'
-    },
-    returns: 'BlogPost'
-  }, {
-    method: 'blogAuthor',
-    arguments: {
-      id: 'ID!'
-    },
-    returns: 'BlogAuthor'
-  }, {
-    method: 'blogAuthors',
-    arguments: {
-      limit: 'Int!'
-    },
-    returns: '[BlogAuthor!]!'
-  }, {
-    method: 'version',
-    returns: 'String!'
-  }, {
-    method: 'contact',
-    arguments: {
-      id: 'ID',
-      email: 'String',
-      utk: 'String'
-    },
-    returns: 'Contact'
-  }, {
-    method: 'contacts',
-    arguments: {
-      count: 'Int!'
-    },
-    returns: '[Contact!]!'
-  }, {
-    method: 'workflow',
-    arguments: {
-      id: 'ID!'
-    },
-    returns: 'Workflow'
-  }, {
-    method: 'workflows',
-    returns: '[Workflow]'
-  }
+    returns: "Ticket",
+  },
 ];
 
-const extractQueryMethod = (qf:any) => {
+const queryFields: GraphqlMethods[] = [
+  {
+    method: "page",
+    arguments: {
+      id: "ID!",
+    },
+    returns: "Page!",
+  },
+  {
+    method: "pages",
+    arguments: {
+      offset: "Int",
+      limit: "Int!",
+    },
+    returns: "[Page!]!",
+  },
+  {
+    method: "blog_posts",
+    arguments: {
+      contentGroupId: "ID!",
+      blogAuthorId: "Int",
+      limit: "Int!",
+    },
+    returns: "[BlogPost!]!",
+  },
+  {
+    method: "blog_post",
+    arguments: {
+      id: "ID!",
+    },
+    returns: "BlogPost",
+  },
+  {
+    method: "blog_author",
+    arguments: {
+      id: "ID!",
+    },
+    returns: "BlogAuthor",
+  },
+  {
+    method: "blog_authors",
+    arguments: {
+      limit: "Int!",
+    },
+    returns: "[BlogAuthor!]!",
+  },
+  {
+    method: "version",
+    returns: "String!",
+  },
+  {
+    method: "contact",
+    arguments: {
+      id: "ID",
+      email: "String",
+      utk: "String",
+    },
+    returns: "Contact",
+  },
+  {
+    method: "contacts",
+    arguments: {
+      count: "Int!",
+    },
+    returns: "[Contact!]!",
+  },
+  {
+    method: "workflow",
+    arguments: {
+      id: "ID!",
+    },
+    returns: "Workflow",
+  },
+  {
+    method: "workflows",
+    returns: "[Workflow]",
+  },
+  {
+    method: "daily_limit",
+    returns: "Custom",
+  },
+  {
+    method: "tickets",
+    returns: "[Ticket!]!",
+  },
+];
+
+const extractQueryMethod = (qf: any) => {
   // blogPosts(contentGroupId: ID!, blogAuthorId: Int, limit: Int!): [BlogPost!]!
   if (qf.arguments) {
-    const argumentMap = Object.keys(qf.arguments).map(arg => `${arg}: ${qf.arguments[arg]}`).join(', ');
+    const argumentMap = Object.keys(qf.arguments)
+      .map((arg) => `${arg}: ${qf.arguments[arg]}`)
+      .join(", ");
     return `${qf.method}(${argumentMap}): ${qf.returns}`;
   }
   return `${qf.method}: ${qf.returns}`;
@@ -179,9 +233,11 @@ const contactPropertyFields = Object.keys(typeDefProps.contact);
 const blogPostFields = Object.keys(typeDefProps.blog);
 const blogAuthorFields = Object.keys(typeDefProps.blogAuthor);
 
-Object.keys(typeDefProps).forEach(typeDef => {
+Object.keys(typeDefProps).forEach((typeDef) => {
   Object.assign(typeDefProps, {
-    [typeDef]: Object.keys((typeDefProps as any)[typeDef]).map(prop => `\t${prop}: ${(typeDefProps as any)[typeDef][prop]}`).join('\r\n')
+    [typeDef]: Object.keys((typeDefProps as any)[typeDef])
+      .map((prop) => `\t${prop}: ${(typeDefProps as any)[typeDef][prop]}`)
+      .join("\r\n"),
   });
 });
 
@@ -193,11 +249,11 @@ module.exports = {
     scalar UnparsedObject
 
     type Query {
-      ${queryFields.map(extractQueryMethod).join('\r\n')}
+      ${queryFields.map(extractQueryMethod).join("\r\n")}
     }
 
     type Mutation {
-      ${mutationFields.map(extractQueryMethod).join('\r\n')}
+      ${mutationFields.map(extractQueryMethod).join("\r\n")}
     }
 
     type Page {
@@ -219,5 +275,17 @@ module.exports = {
     type Workflow {
       ${typeDefProps.workflow}
     }
-  `
+
+    type Custom {
+      ${typeDefProps.custom}
+    }
+
+    type TicketProperties {
+      ${typeDefProps.ticketProperties}
+    }
+
+    type Ticket {
+      ${typeDefProps.ticket}
+    }
+  `,
 };

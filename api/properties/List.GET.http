@@ -1,0 +1,4 @@
+// https://developers.hubspot.com/docs/api/crm/properties
+
+// Get ticket properties
+GET https://api.hubapi.com/crm/v3/properties/ticket?archived=false&hapikey=dea715b2-2096-4374-92e0-76e1eb65388e

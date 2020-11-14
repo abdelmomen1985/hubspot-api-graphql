@@ -1,0 +1,12 @@
+POST https://api.hubapi.com/crm/v3/objects/tickets?hapikey=dea715b2-2096-4374-92e0-76e1eb65388e
+Content-Type: application/json
+
+{
+  "properties": {
+    "hs_pipeline": "0",
+    "hs_pipeline_stage": "3",
+    "hs_ticket_priority": "HIGH",
+    "hubspot_owner_id": "51091639",
+    "subject": "troubleshoot report"
+  }
+}

@@ -1,3 +1,8 @@
+import Axios from "axios";
+import { APP_CONFIGS } from "./configs";
+import { YogaContext } from "./types/custom";
+import HubSpotClient, { IHubSpotClientProps } from "./types/hubspot-api";
+
 const assertHasCredentials = (ctx: any) => {
   if (!ctx.hs) {
     throw new Error("Credentials are required");
@@ -61,13 +66,13 @@ export default {
     const { vid, properties } = response;
     return contactsResponse(response);
   },
-  blogAuthor: async (_: any, opts: any, context: any) => {
+  blog_author: async (_: any, opts: any, context: any) => {
     assertHasCredentials(context);
     const { hs } = context;
     const response = await hs.blog.getAuthor(opts.id);
     return response;
   },
-  blogAuthors: async (_: any, opts: any, context: any) => {
+  blog_authors: async (_: any, opts: any, context: any) => {
     assertHasCredentials(context);
     const { hs } = context;
     const response = await hs.blog.getAuthors(opts);
@@ -87,13 +92,13 @@ export default {
     const { objects } = response;
     return objects;
   },
-  blogPost: async (_: any, opts: any, context: any) => {
+  blog_post: async (_: any, opts: any, context: any) => {
     assertHasCredentials(context);
     const { hs } = context;
     const response = await hs.blog.getPostById(opts);
     return response;
   },
-  blogPosts: async (_: any, opts: any, context: any) => {
+  blog_posts: async (_: any, opts: any, context: any) => {
     const {
       contentGroupId: content_group_id,
       blogAuthorId: blog_author_id,
@@ -117,7 +122,6 @@ export default {
     const { workflows } = response;
 
     // Filtering (as this is not provided by the API)
-
     return workflows;
   },
   workflow: async (_: any, opts: any, context: any) => {
@@ -127,4 +131,28 @@ export default {
     console.log(response);
     return response;
   },
+  daily_limit: async (_: any, opts: any, context: YogaContext) => {
+    assertHasCredentials(context);
+    const { hs } = context;
+    const accDetails = await hs.account.getAccountDetails();
+    return { id: accDetails.portalId, ...accDetails };
+  },
+  tickets: async (_: any, opts: any, { hapikey }: YogaContext) => {
+    let resp = await Axios(
+      `https://api.hubapi.com/crm/v3/objects/tickets?hapikey=${hapikey}`,
+      {
+        params: {
+          properties:
+            "subject,content,hs_pipeline_stage,hs_ticket_priority,entry_level",
+        },
+      }
+    );
+    return resp.data?.results;
+  },
+  /*
+  tasks: async (_: any, opts: any, { hs }: YogaContext) => {
+    // https://legacydocs.hubspot.com/docs/methods/engagements/get-all-engagements
+    console.log(resp);
+  },
+  */
 };

@@ -1,0 +1,7 @@
+// https://developers.hubspot.com/docs/api/crm/tickets
+GET https://api.hubapi.com/crm/v3/objects/tickets?hapikey=dea715b2-2096-4374-92e0-76e1eb65388e
+Content-Type: application/json
+
+{
+  "properties":"subject,content,hs_pipeline_stage,hs_ticket_priority,entry_level",
+}

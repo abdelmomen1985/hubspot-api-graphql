@@ -51,14 +51,18 @@ export default {
     return company.body;
   },
   update_company: async (_: any, req: any, { client }: YogaContext) => {
-    const {id} = req;
+    const { id } = req;
     delete req.id;
     let properties = { ...req } as CompanyProperties;
-    console.log("update_company",id, properties);
-    let updated = await client.crm.companies.basicApi.update(
-      ""+id,
-      { properties }
-    );
+    console.log("update_company", id, properties);
+    let updated = await client.crm.companies.basicApi.update("" + id, {
+      properties,
+    });
     console.log(updated);
+  },
+  delete_company: async (_: any, req: any, { client }: YogaContext) => {
+    const { id } = req;
+    const deleted = await client.crm.companies.basicApi.archive(id);
+    console.log(deleted);
   },
 };

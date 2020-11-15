@@ -114,9 +114,10 @@ let typeDefProps = {
     name: "String",
     name_ar: "String",
     domain: "String",
+    website: "String",
     phone: "String",
     description: "String",
-    logo: "String"
+    logo: "String",
   },
   company: {
     id: "ID",
@@ -149,7 +150,7 @@ const mutationFields: GraphqlMethods[] = [
     arguments: {
       name: "String!",
       name_ar: "String",
-      domain: "String",
+      website: "String",
       phone: "String",
     },
     returns: "Company",
@@ -157,14 +158,19 @@ const mutationFields: GraphqlMethods[] = [
   {
     method: "update_company",
     arguments: {
-      id:"ID!",
+      id: "ID!",
       name: "String",
       name_ar: "String",
-      domain: "String",
+      website: "String",
       phone: "String",
     },
-    returns: "Company"
-  }
+    returns: "Company",
+  },
+  {
+    method: "delete_company",
+    arguments: { id: "ID!" },
+    returns: "Company",
+  },
 ];
 
 const queryFields: GraphqlMethods[] = [

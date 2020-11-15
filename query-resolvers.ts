@@ -157,7 +157,9 @@ export default {
   },
   */
   companies: async (_: any, opts: any, { client }: YogaContext) => {
-    const companies = await client.crm.companies.getAll(100,undefined,["name_ar,name,description,domain,about_us,phone,linkedin_company_page"]);
+    const companies = await client.crm.companies.getAll(100, undefined, [
+      "name_ar,name,description,domain,about_us,phone,linkedin_company_page,website",
+    ]);
     const mapped = companies.map((company) => {
       let newCompany = {
         ...company,

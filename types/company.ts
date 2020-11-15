@@ -5,6 +5,7 @@ export type CompanyProperties = {
   phone: string;
   description: string;
   logo: string;
+  website: string;
 };
 
 export type Company = {

@@ -43,6 +43,16 @@ export default {
       console.error(error.response?.data);
     }
   },
+  update_ticket: async (
+    _: any,
+    { id, new_stage_id }: any,
+    { client }: YogaContext
+  ) => {
+    let resp = await client.crm.tickets.basicApi.update(id, {
+      properties: { hs_pipeline_stage: new_stage_id },
+    });
+    console.log(resp);
+  },
   insert_company: async (_: any, req: any, { client }: YogaContext) => {
     let properties = { ...req } as CompanyProperties;
     let company = await client.crm.companies.basicApi.create({
@@ -63,6 +73,31 @@ export default {
   delete_company: async (_: any, req: any, { client }: YogaContext) => {
     const { id } = req;
     const deleted = await client.crm.companies.basicApi.archive(id);
-    console.log(deleted);
+
+    return {
+      statusCode: deleted.response.statusCode,
+      success: deleted.response.statusCode === 204,
+    };
+  },
+  delete_companies: async (_: any, { ids }: any, { client }: YogaContext) => {
+    let batchIds = (ids as string[]).map((id) => {
+      return { id };
+    });
+
+    try {
+      const deleted = await client.crm.companies.batchApi.archive({
+        inputs: batchIds,
+      });
+      console.log(deleted.response.statusCode);
+      return {
+        statusCode: deleted.response.statusCode,
+        success: deleted.response.statusCode === 204,
+      };
+    } catch (error) {
+      console.error(error.message);
+      return {
+        success: false,
+      };
+    }
   },
 };

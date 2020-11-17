@@ -18,6 +18,10 @@ let typeDefProps = {
   custom: {
     id: "ID!",
   },
+  deleted: {
+    statusCode: "Int",
+    success: "Boolean",
+  },
   contact: {
     vid: "ID!",
     firstname: "String",
@@ -109,6 +113,7 @@ let typeDefProps = {
     createdAt: "String",
     updatedAt: "String",
     archived: "Boolean",
+    stage: "PipelineStage",
   },
   companyProperties: {
     name: "String",
@@ -126,6 +131,14 @@ let typeDefProps = {
     updatedAt: "String",
     archived: "Boolean",
   },
+  pipelineStage: {
+    id: "ID",
+    createdAt: "String",
+    updatedAt: "String",
+    archived: "Boolean",
+    label: "String",
+    isClosed: "Boolean",
+  },
 };
 
 const mutationFields: GraphqlMethods[] = [
@@ -142,6 +155,14 @@ const mutationFields: GraphqlMethods[] = [
     arguments: {
       subject: "String!",
       content: "String",
+    },
+    returns: "Ticket",
+  },
+  {
+    method: "update_ticket",
+    arguments: {
+      id: "ID!",
+      new_stage_id: "String!",
     },
     returns: "Ticket",
   },
@@ -169,7 +190,12 @@ const mutationFields: GraphqlMethods[] = [
   {
     method: "delete_company",
     arguments: { id: "ID!" },
-    returns: "Company",
+    returns: "Deleted",
+  },
+  {
+    method: "delete_companies",
+    arguments: { ids: "[ID!]!" },
+    returns: "Deleted",
   },
 ];
 
@@ -262,6 +288,14 @@ const queryFields: GraphqlMethods[] = [
     method: "companies",
     returns: "[Company!]!",
   },
+  {
+    method: "pipelineStages",
+    arguments: {
+      objectType: "String!",
+      pipelineId: "String!",
+    },
+    returns: "[PipelineStage]!",
+  },
 ];
 
 const extractQueryMethod = (qf: any) => {
@@ -340,6 +374,14 @@ module.exports = {
 
     type Company {
       ${typeDefProps.company}
+    }
+
+    type Deleted {
+      ${typeDefProps.deleted}
+    }
+
+    type PipelineStage {
+      ${typeDefProps.pipelineStage}
     }
   `,
 };

@@ -138,7 +138,25 @@ export default {
     const accDetails = await hs.account.getAccountDetails();
     return { id: accDetails.portalId, ...accDetails };
   },
-  tickets: async (_: any, opts: any, { hapikey }: YogaContext) => {
+  pipelineStages: async (
+    _: any,
+    { objectType, pipelineId }: any,
+    { client }: YogaContext
+  ) => {
+    const {
+      body: piplineStagesResp,
+    } = await client.crm.pipelines.pipelineStagesApi.getAll(
+      objectType,
+      pipelineId
+    );
+    const stages = piplineStagesResp.results.map((stage) => {
+      (stage as any).isClosed = JSON.parse(stage.metadata.isClosed);
+      return stage;
+    });
+    return stages;
+  },
+  tickets: async (_: any, opts: any, { client }: YogaContext) => {
+    /*
     let resp = await Axios(
       `https://api.hubapi.com/crm/v3/objects/tickets?hapikey=${hapikey}`,
       {
@@ -149,6 +167,27 @@ export default {
       }
     );
     return resp.data?.results;
+    */
+
+    const {
+      body: piplineStagesResp,
+    } = await client.crm.pipelines.pipelineStagesApi.getAll("tickets", "0");
+
+    const { results: stages } = piplineStagesResp;
+    const tickets = await client.crm.tickets.getAll(100, undefined, [
+      "subject,content,hs_pipeline,hs_pipeline_stage,hs_ticket_priority,entry_level",
+    ]);
+    const ticketsWithStages = tickets.map((ticket: any) => {
+      const filteredStages = stages.filter(
+        (one) => one.id === ticket.properties.hs_pipeline_stage
+      );
+      ticket.stage = {
+        ...filteredStages[0],
+        isClosed: JSON.parse(filteredStages[0].metadata.isClosed),
+      };
+      return ticket;
+    });
+    return ticketsWithStages;
   },
   /*
   tasks: async (_: any, opts: any, { hs }: YogaContext) => {

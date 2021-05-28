@@ -38,6 +38,7 @@ const companiesResponse = (company: any) => {
 };
 
 export default {
+  hello: (_:any) => "Hello momen 🎉",
   contacts: async (_: any, opts: any, context: any) => {
     assertHasCredentials(context);
     const { hs } = context;

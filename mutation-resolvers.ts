@@ -3,6 +3,7 @@ import HubSpotClient from "hubspot-api";
 import { APP_CONFIGS } from "./configs";
 import { CompanyProperties } from "./types/company";
 import { YogaContext } from "./types/custom";
+import { createWriteStream } from 'fs'
 
 const assertHasCredentials = (ctx: { hs: HubSpotClient }) => {
   if (!ctx.hs) {
@@ -10,7 +11,26 @@ const assertHasCredentials = (ctx: { hs: HubSpotClient }) => {
   }
 };
 
+const storeUpload = async ({ stream, filename }: any): Promise<any> => {
+
+  const path = `uploads/${"test"}-${filename}`
+  return new Promise((resolve, reject) =>
+    stream
+      .pipe(createWriteStream(path))
+      .on('finish', () => resolve({ path }))
+      .on('error', reject),
+  )
+}
+
+const processUpload = async (upload: any) => {
+  console.log("uploading")
+  const { createReadStream, filename, mimetype, encoding } = await upload
+  const stream = createReadStream()
+  const { id, path } = await storeUpload({ stream, filename })
+}
+
 export default {
+  upload: async (_: any, { file }: any) => processUpload(file),
   insert_contact: async (_: any, req: any, context: YogaContext) => {
     assertHasCredentials(context);
     const { firstname, email } = req;

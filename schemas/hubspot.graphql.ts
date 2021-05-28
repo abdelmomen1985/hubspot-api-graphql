@@ -327,13 +327,24 @@ module.exports = {
   blogAuthorFields,
   typeDefs: `
     scalar UnparsedObject
+    scalar Upload
 
     type Query {
       ${queryFields.map(extractQueryMethod).join("\r\n")}
+      hello: String
     }
 
     type Mutation {
       ${mutationFields.map(extractQueryMethod).join("\r\n")}
+      upload (file: Upload!): File!
+    }
+
+    type File {
+      id: ID!
+      path: String!
+      filename: String!
+      mimetype: String!
+      encoding: String!
     }
 
     type Page {

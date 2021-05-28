@@ -15,16 +15,26 @@ const server = new GraphQLServer({
 });
 
 const { PORT: port, NODE_ENV } = process.env;
+/*
+server.express.use((req, res, next) => {
+  res.header('Access-Control-Allow-Credentials', "true")
+  next()
+})
+*/
 
 server.start(
   {
-    port,
+    cors: {
+      credentials: true,
+      origin: "*"
+    },
+    port: 7080,
     endpoint: `/api/v1`,
     tracing: NODE_ENV === "development",
     cacheControl: true,
   },
   ({ port }) =>
     console.log(
-      `Server started, listening on port ${port} for incoming requests.`
+      `Server started, listening on port http://0.0.0.0:${port} for incoming requests.`
     )
 );

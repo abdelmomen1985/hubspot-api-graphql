@@ -69,7 +69,7 @@ server.start(
       credentials: true,
       origin: "*",
     },
-    port: 7080,
+    port,
     endpoint: `/api/v1`,
     tracing: NODE_ENV === "development",
     cacheControl: true,

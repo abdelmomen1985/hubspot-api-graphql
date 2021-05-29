@@ -6,6 +6,9 @@
   "scripts": {
     "start": "nodemon index.ts"
   },
+  "engines": {
+    "node": "12.x"
+  },
   "keywords": [],
   "author": "",
   "license": "ISC",

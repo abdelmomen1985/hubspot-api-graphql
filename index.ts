@@ -20,9 +20,9 @@ server.start(
   {
     cors: {
       credentials: true,
-      origin: "*"
+      origin: "*",
     },
-    port: 7080,
+    port,
     endpoint: `/api/v1`,
     tracing: NODE_ENV === "development",
     cacheControl: true,

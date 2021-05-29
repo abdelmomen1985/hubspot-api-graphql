@@ -1,9 +1,17 @@
 import Axios from "axios";
 import HubSpotClient from "hubspot-api";
-import { APP_CONFIGS } from "./configs";
-import { CompanyProperties } from "./types/company";
-import { YogaContext } from "./types/custom";
-import { createWriteStream } from 'fs'
+import { APP_CONFIGS } from "../configs";
+import { CompanyProperties } from "../types/company";
+import { YogaContext } from "../types/custom";
+import { createWriteStream } from 'fs';
+import { v2 } from 'cloudinary';
+
+const cloudinary = v2;
+cloudinary.config({
+  api_key: "329246125839327",
+  api_secret: "2pj_OP9d_GTj6xNh0ZYc_9vXjoA",
+  cloud_name: "mellw"
+});
 
 const assertHasCredentials = (ctx: { hs: HubSpotClient }) => {
   if (!ctx.hs) {
@@ -11,7 +19,7 @@ const assertHasCredentials = (ctx: { hs: HubSpotClient }) => {
   }
 };
 
-const storeUpload = async ({ stream, filename }: any): Promise<any> => {
+const storeFile = async ({ stream, filename }: any): Promise<any> => {
 
   const path = `uploads/${"test"}-${filename}`
   return new Promise((resolve, reject) =>
@@ -22,15 +30,33 @@ const storeUpload = async ({ stream, filename }: any): Promise<any> => {
   )
 }
 
-const processUpload = async (upload: any) => {
-  console.log("uploading")
-  const { createReadStream, filename, mimetype, encoding } = await upload
-  const stream = createReadStream()
-  const { id, path } = await storeUpload({ stream, filename })
+const uploadCloudinary = async ({ stream, filename }: any): Promise<any> => {
+  const cldStream = cloudinary.uploader.upload_stream(function (err, image) {
+    console.log();
+    console.log("** Stream Upload");
+    if (err) { console.warn(err); }
+    console.log("* Same image, uploaded via stream");
+    console.log("* " + image?.public_id);
+    console.log("* " + image?.url);
+  });
+  return new Promise((resolve, reject) =>
+    stream
+      .pipe(cldStream)
+      .on('finish', (result:any) => resolve(result))
+      .on('error', reject),
+  )
 }
 
 export default {
-  upload: async (_: any, { file }: any) => processUpload(file),
+  upload: async (_: any, { file }: any) => {
+    console.log("uploading")
+    const { createReadStream, filename, mimetype, encoding } = await file
+    const stream = createReadStream()
+    //const { id, path } = await storeFile({ stream, filename })
+    const result = await uploadCloudinary({ stream, filename })
+    console.log("cloudinary result : ", result)
+    return { filename: "okay" }
+  },
   insert_contact: async (_: any, req: any, context: YogaContext) => {
     assertHasCredentials(context);
     const { firstname, email } = req;

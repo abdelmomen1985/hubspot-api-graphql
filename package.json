@@ -13,6 +13,7 @@
     "@hubspot/api-client": "^3.0.1",
     "@types/graphql-type-json": "^0.3.2",
     "axios": "^0.21.0",
+    "cloudinary": "^1.25.1",
     "dotenv": "^5.0.1",
     "graphql-type-json": "^0.2.0",
     "graphql-yoga": "^1.8.0",

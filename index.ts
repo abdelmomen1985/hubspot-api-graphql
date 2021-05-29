@@ -1,7 +1,7 @@
 import { GraphQLServer } from "graphql-yoga";
 import UnparsedObject from "graphql-type-json";
-import Query from "./query-resolvers";
-import Mutation from "./mutation-resolvers";
+import Query from "./resolvers/query-resolvers";
+import Mutation from "./resolvers/mutation-resolvers";
 import context from "./context";
 
 require("dotenv").config();
@@ -15,12 +15,6 @@ const server = new GraphQLServer({
 });
 
 const { PORT: port, NODE_ENV } = process.env;
-/*
-server.express.use((req, res, next) => {
-  res.header('Access-Control-Allow-Credentials', "true")
-  next()
-})
-*/
 
 server.start(
   {
@@ -35,6 +29,6 @@ server.start(
   },
   ({ port }) =>
     console.log(
-      `Server started, listening on port http://0.0.0.0:${port} for incoming requests.`
+      `Server started, listening on port http://localhost:${port} for incoming requests.`
     )
 );

@@ -1,8 +1,7 @@
 import Axios from "axios";
-import { APP_CONFIGS } from "./configs";
-import { Company } from "./types/company";
-import { YogaContext } from "./types/custom";
-import HubSpotClient, { IHubSpotClientProps } from "./types/hubspot-api";
+import { YogaContext } from "../types/custom";
+import { Company } from "../types/company"
+import HubSpotClient, { IHubSpotClientProps } from "../types/hubspot-api";
 
 const assertHasCredentials = (ctx: any) => {
   if (!ctx.hs) {

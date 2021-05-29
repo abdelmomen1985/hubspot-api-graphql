@@ -47,7 +47,7 @@ const uploadCloudinary = async ({ stream, filename }: any): Promise<any> => {
 export default {
   upload: async (_: any, { file }: any) => {
     console.log("uploading")
-    const { createReadStream, filename, mimetype, encoding } = await file
+    const { createReadStream, filename } = await file
     const stream = createReadStream()
     //const { id, path } = await storeFile({ stream, filename })
     const result = await uploadCloudinary({ stream, filename })

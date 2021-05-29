@@ -31,20 +31,17 @@ const storeFile = async ({ stream, filename }: any): Promise<any> => {
 }
 
 const uploadCloudinary = async ({ stream, filename }: any): Promise<any> => {
-  const cldStream = cloudinary.uploader.upload_stream(function (err, image) {
-    console.log();
-    console.log("** Stream Upload");
-    if (err) { console.warn(err); }
-    console.log("* Same image, uploaded via stream");
-    console.log("* " + image?.public_id);
-    console.log("* " + image?.url);
-  });
-  return new Promise((resolve, reject) =>
+  return new Promise((resolve, reject) => {
+    const cldStream = cloudinary.uploader.upload_stream({folder:"mellw_uploads"},function (err, image) {
+      console.log("** Stream Upload **");
+      if (err) { console.warn(err); }
+      console.log("* Same image, uploaded via stream");
+      resolve(image)
+    });
     stream
       .pipe(cldStream)
-      .on('finish', (result:any) => resolve(result))
-      .on('error', reject),
-  )
+      .on('error', reject);
+  });
 }
 
 export default {

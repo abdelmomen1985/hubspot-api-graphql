@@ -26,9 +26,7 @@
     "nodemon": "^1.17.3",
     "streamifier": "^0.1.1",
     "ts-node": "^9.0.0",
-    "typescript": "^4.0.5"
-  },
-  "devDependencies": {
+    "typescript": "^4.0.5",
     "@types/express-fileupload": "^1.1.6",
     "@types/streamifier": "^0.1.0"
   }

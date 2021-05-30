@@ -139,9 +139,28 @@ let typeDefProps = {
     label: "String",
     isClosed: "Boolean",
   },
+  zoomMeeting: {
+    uuid: "ID",
+    id: "Int",
+    host_id: "String",
+    host_email: "String",
+    type: "Int",
+    start_url: "String",
+    join_url: "String",
+    password: "String",
+    h323_password: "String",
+  },
 };
 
 const mutationFields: GraphqlMethods[] = [
+  {
+    method: "create_meeting",
+    arguments: {
+      topic: "String",
+      type: "Int",
+    },
+    returns: "ZoomMeeting!",
+  },
   {
     method: "insert_contact",
     arguments: {
@@ -393,6 +412,10 @@ module.exports = {
 
     type PipelineStage {
       ${typeDefProps.pipelineStage}
+    }
+
+    type ZoomMeeting {
+      ${typeDefProps.zoomMeeting}
     }
   `,
 };

@@ -141,7 +141,7 @@ let typeDefProps = {
   },
   zoomMeeting: {
     uuid: "ID",
-    id: "Int",
+    id: "Float",
     host_id: "String",
     host_email: "String",
     type: "Int",

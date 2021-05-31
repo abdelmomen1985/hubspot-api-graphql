@@ -5,6 +5,7 @@ import { CompanyProperties } from "../types/company";
 import { YogaContext } from "../types/custom";
 import { createWriteStream } from "fs";
 import { v2 } from "cloudinary";
+import sgMail from "@sendgrid/mail";
 
 const cloudinary = v2;
 cloudinary.config({
@@ -12,6 +13,10 @@ cloudinary.config({
   api_secret: "2pj_OP9d_GTj6xNh0ZYc_9vXjoA",
   cloud_name: "mellw",
 });
+
+sgMail.setApiKey(
+  "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"
+);
 
 const assertHasCredentials = (ctx: { hs: HubSpotClient }) => {
   if (!ctx.hs) {
@@ -60,6 +65,8 @@ export default {
     console.log("creating meeting ...");
     topic = topic ? topic : "Mellw's Meeting";
     type = type ? type : 1;
+    const BEARER =
+      "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJhdWQiOm51bGwsImlzcyI6InYtRVdIX25RU3N5ZTZQYnpOOTFjYmciLCJleHAiOjE2MjI2MTU2MjAsImlhdCI6MTYyMjAxMDgyMX0.9";
     try {
       const resp = await Axios.post(
         `https://api.zoom.us/v2/users/c9IXVNdRT82n90hZQ9Iuaw/meetings`,
@@ -70,12 +77,27 @@ export default {
         {
           headers: {
             Authorization:
-              "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJhdWQiOm51bGwsImlzcyI6InYtRVdIX25RU3N5ZTZQYnpOOTFjYmciLCJleHAiOjE2MjI2MTU2MjAsImlhdCI6MTYyMjAxMDgyMX0.9EKHhFa5D7Gj0mb3o4d3jFTfWKnbqSw01ozsSJI1fVM",
+              `${BEARER}EKHhFa5D7Gj0mb3o4d3jFTfWKnbqSw01ozsSJI1fVM`,
             "Content-type": "application/json",
           },
         }
       );
       console.log(resp.data);
+      const msg = {
+        to: "abdelmomen1985@gmail.com", // Change to your recipient
+        from: "info@mellw.com", // Change to your verified sender
+        subject: "New Zoom meeting request",
+        text: `Meeting url is ${resp.data.join_url}`,
+        html: `<strong>Meeting url is</strong> ${resp.data.join_url}`,
+      };
+      sgMail
+        .send(msg)
+        .then(() => {
+          console.log("Email sent");
+        })
+        .catch((error) => {
+          console.error(error);
+        });
       return resp.data;
     } catch (error) {
       console.error(error.response?.data);

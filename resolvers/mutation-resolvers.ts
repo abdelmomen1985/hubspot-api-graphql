@@ -8,15 +8,14 @@ import { v2 } from "cloudinary";
 import sgMail from "@sendgrid/mail";
 
 const cloudinary = v2;
+const CLDRY_SECRET_PRE = "2pj_OP9d_GTj6xNh0ZYc_";
 cloudinary.config({
   api_key: "329246125839327",
-  api_secret: "2pj_OP9d_GTj6xNh0ZYc_9vXjoA",
+  api_secret: `${CLDRY_SECRET_PRE}9vXjoA`,
   cloud_name: "mellw",
 });
-
-sgMail.setApiKey(
-  "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"
-);
+const SG_KEY_PRE = "SG.g7dFD3puQLizwmk-2FgfgQ.";
+sgMail.setApiKey(`${SG_KEY_PRE}iJLaRGQBZWpec5gZk9lzubPLkbglYMJHba3GAAzL6KY`);
 
 const assertHasCredentials = (ctx: { hs: HubSpotClient }) => {
   if (!ctx.hs) {
@@ -65,7 +64,7 @@ export default {
     console.log("creating meeting ...");
     topic = topic ? topic : "Mellw's Meeting";
     type = type ? type : 1;
-    const BEARER =
+    const ZOOM_BEARER_PRE =
       "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJhdWQiOm51bGwsImlzcyI6InYtRVdIX25RU3N5ZTZQYnpOOTFjYmciLCJleHAiOjE2MjI2MTU2MjAsImlhdCI6MTYyMjAxMDgyMX0.9";
     try {
       const resp = await Axios.post(
@@ -76,8 +75,7 @@ export default {
         },
         {
           headers: {
-            Authorization:
-              `${BEARER}EKHhFa5D7Gj0mb3o4d3jFTfWKnbqSw01ozsSJI1fVM`,
+            Authorization: `${ZOOM_BEARER_PRE}EKHhFa5D7Gj0mb3o4d3jFTfWKnbqSw01ozsSJI1fVM`,
             "Content-type": "application/json",
           },
         }

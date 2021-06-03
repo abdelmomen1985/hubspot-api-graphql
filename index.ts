@@ -28,8 +28,8 @@ const { PORT: port, NODE_ENV } = process.env;
 
 server.express.use(fileUpload());
 
-server.express.get("/hello", (req, res) => {
-  res.send("Hello hello hello 🎉");
+server.express.get("/test", (req, res) => {
+  res.send("Hello test 🎉");
 });
 
 const uploadCloudinary = async ({ stream, filename }: any): Promise<any> => {

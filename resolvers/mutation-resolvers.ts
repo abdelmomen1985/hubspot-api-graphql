@@ -65,7 +65,7 @@ export default {
     topic = topic ? topic : "Mellw's Meeting";
     type = type ? type : 1;
     const ZOOM_BEARER_PRE =
-      "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJhdWQiOm51bGwsImlzcyI6InYtRVdIX25RU3N5ZTZQYnpOOTFjYmciLCJleHAiOjE2MjI2MTU2MjAsImlhdCI6MTYyMjAxMDgyMX0.9";
+      "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJ2LUVXSF9uUVNzeWU2UGJ6TjkxY2JnIiwiZXhwIjoxNjM4NTI1MTUwLjM4OSwiaWF0IjoxNjIyNzEzOTUwfQ.b9PZ0TEd0fYNy90SxLwV-";
     try {
       const resp = await Axios.post(
         `https://api.zoom.us/v2/users/c9IXVNdRT82n90hZQ9Iuaw/meetings`,
@@ -75,7 +75,7 @@ export default {
         },
         {
           headers: {
-            Authorization: `${ZOOM_BEARER_PRE}EKHhFa5D7Gj0mb3o4d3jFTfWKnbqSw01ozsSJI1fVM`,
+            Authorization: `${ZOOM_BEARER_PRE}Lezgqy2Ch2JCq2NiCo1dZA`,
             "Content-type": "application/json",
           },
         }

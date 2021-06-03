@@ -145,10 +145,14 @@ let typeDefProps = {
     host_id: "String",
     host_email: "String",
     type: "Int",
+    duration: "Int",
     start_url: "String",
     join_url: "String",
     password: "String",
     h323_password: "String",
+    start_time: "String",
+    created_at: "String",
+    timezone: "String",
   },
 };
 
@@ -351,6 +355,7 @@ module.exports = {
     type Query {
       ${queryFields.map(extractQueryMethod).join("\r\n")}
       hello: String
+      zoom_gen(secret: String!): String
     }
 
     type Mutation {

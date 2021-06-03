@@ -1,8 +1,8 @@
 import Axios from "axios";
 import { YogaContext } from "../types/custom";
-import { Company } from "../types/company"
+import { Company } from "../types/company";
 import HubSpotClient, { IHubSpotClientProps } from "../types/hubspot-api";
-
+import jwt from "jsonwebtoken";
 const assertHasCredentials = (ctx: any) => {
   if (!ctx.hs) {
     throw new Error("Credentials are required");
@@ -37,7 +37,17 @@ const companiesResponse = (company: any) => {
 };
 
 export default {
-  hello: (_:any) => "Hello momen 🎉",
+  zoom_gen: (_: any, args: any) => {
+    const todayDate = new Date();
+    const after6Months = new Date(todayDate.setMonth(todayDate.getMonth() + 6));
+    const payload = {
+      iss: "v-EWH_nQSsye6PbzN91cbg",
+      exp: after6Months.getTime() / 1000,
+    };
+    const token = jwt.sign(payload, args.secret);
+    return token;
+  },
+  hello: (_: any) => "Hello momen 🎉",
   contacts: async (_: any, opts: any, context: any) => {
     assertHasCredentials(context);
     const { hs } = context;
@@ -143,12 +153,11 @@ export default {
     { objectType, pipelineId }: any,
     { client }: YogaContext
   ) => {
-    const {
-      body: piplineStagesResp,
-    } = await client.crm.pipelines.pipelineStagesApi.getAll(
-      objectType,
-      pipelineId
-    );
+    const { body: piplineStagesResp } =
+      await client.crm.pipelines.pipelineStagesApi.getAll(
+        objectType,
+        pipelineId
+      );
     const stages = piplineStagesResp.results.map((stage) => {
       (stage as any).isClosed = JSON.parse(stage.metadata.isClosed);
       return stage;
@@ -169,9 +178,8 @@ export default {
     return resp.data?.results;
     */
 
-    const {
-      body: piplineStagesResp,
-    } = await client.crm.pipelines.pipelineStagesApi.getAll("tickets", "0");
+    const { body: piplineStagesResp } =
+      await client.crm.pipelines.pipelineStagesApi.getAll("tickets", "0");
 
     const { results: stages } = piplineStagesResp;
     const tickets = await client.crm.tickets.getAll(100, undefined, [

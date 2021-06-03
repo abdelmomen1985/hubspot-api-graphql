@@ -36,8 +36,8 @@ const companiesResponse = (company: any) => {
   );
 };
 
-    const ZOOM_BEARER_PRE =
-      "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJ2LUVXSF9uUVNzeWU2UGJ6TjkxY2JnIiwiZXhwIjoxNjM4NTI1MTUwLjM4OSwiaWF0IjoxNjIyNzEzOTUwfQ.b9PZ0TEd0fYNy90SxLwV-";
+const ZOOM_BEARER_PRE =
+  "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJ2LUVXSF9uUVNzeWU2UGJ6TjkxY2JnIiwiZXhwIjoxNjM4NTI1MTUwLjM4OSwiaWF0IjoxNjIyNzEzOTUwfQ.b9PZ0TEd0fYNy90SxLwV-";
 
 export default {
   zoom_gen: (_: any, args: any) => {
@@ -51,8 +51,7 @@ export default {
     return token;
   },
   hello: (_: any) => "Hello momen 🎉",
-  past_meetings: async (_: any, {uuids}: any) => {
-    console.log(uuids);
+  past_meetings: async (_: any, { uuids }: any) => {
     const allReqs = (uuids as String[]).map((uuid) =>
       Axios.get(`https://api.zoom.us/v2/past_meetings/${uuid}`, {
         headers: {
@@ -64,17 +63,18 @@ export default {
         },
       })
     );
-    Axios.all(allReqs).then(resp =>{
-      resp.forEach(item =>{
-        console.log(item.data)
+
+    const allFound: any[] = [];
+    await Axios.all(allReqs)
+      .then((resp) => {
+        resp.forEach((item) => {
+          console.log(item.data);
+          allFound.push({ ...item.data });
+        });
       })
-    }).catch(_errors=>{})
-    /*
-    allResp.forEach(resp => {
-      console.log(resp.data)
-    })
-    */
-    return uuids;
+      .catch((_errors) => {});
+
+    return allFound;
   },
   contacts: async (_: any, opts: any, context: any) => {
     assertHasCredentials(context);

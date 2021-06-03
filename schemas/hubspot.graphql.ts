@@ -146,11 +146,14 @@ let typeDefProps = {
     host_email: "String",
     type: "Int",
     duration: "Int",
+    total_minutes: "Int",
+    participants_count: "Int",
     start_url: "String",
     join_url: "String",
     password: "String",
     h323_password: "String",
     start_time: "String",
+    end_time: "String",
     created_at: "String",
     timezone: "String",
   },
@@ -318,6 +321,13 @@ const queryFields: GraphqlMethods[] = [
       pipelineId: "String!",
     },
     returns: "[PipelineStage]!",
+  },
+  {
+    method: "past_meetings",
+    arguments: {
+      uuids: "[String!]!",
+    },
+    returns: "[ZoomMeeting!]!",
   },
 ];
 

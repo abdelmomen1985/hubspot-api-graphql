@@ -51,7 +51,7 @@ const uploadCloudinary = async ({ stream, filename }: any): Promise<any> => {
 };
 
 export default {
-  upload: async (_: any, { file }: any) => {
+  upload_image: async (_: any, { file }: any) => {
     console.log("uploading");
     const { createReadStream, filename } = await file;
     const stream = createReadStream();

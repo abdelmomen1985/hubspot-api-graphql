@@ -1,8 +1,6 @@
 import Axios from "axios";
-import { YogaContext } from "../types/custom";
-import { Company } from "../types/company";
-import HubSpotClient, { IHubSpotClientProps } from "../types/hubspot-api";
 import jwt from "jsonwebtoken";
+import { YogaContext } from "../types/custom";
 const assertHasCredentials = (ctx: any) => {
   if (!ctx.hs) {
     throw new Error("Credentials are required");
@@ -50,7 +48,7 @@ export default {
     const token = jwt.sign(payload, args.secret);
     return token;
   },
-  hello: (_: any) => "Hello momen 🎉",
+  hello: (_: any) => "Hello ya momen 🎉",
   past_meetings: async (_: any, { uuids }: any) => {
     const allReqs = (uuids as String[]).map((uuid) =>
       Axios.get(`https://api.zoom.us/v2/past_meetings/${uuid}`, {

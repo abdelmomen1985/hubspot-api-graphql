@@ -370,7 +370,7 @@ module.exports = {
 
     type Mutation {
       ${mutationFields.map(extractQueryMethod).join("\r\n")}
-      upload (file: Upload!): File!
+      upload_image (file: Upload!): File!
     }
 
     type File {

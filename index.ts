@@ -49,7 +49,7 @@ const uploadCloudinary = async ({ stream, filename }: any): Promise<any> => {
   });
 };
 
-server.express.post("/upload_image", async (req, res) => {
+server.express.post("/upload", async (req, res) => {
   const { files } = req;
   if (files && files.single) {
     const { data, name } = files.single as fileUpload.UploadedFile;

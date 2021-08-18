@@ -1,11 +1,11 @@
+import sgMail from "@sendgrid/mail";
 import Axios from "axios";
+import { v2 } from "cloudinary";
+import { createWriteStream } from "fs";
 import HubSpotClient from "hubspot-api";
 import { APP_CONFIGS } from "../configs";
 import { CompanyProperties } from "../types/company";
 import { YogaContext } from "../types/custom";
-import { createWriteStream } from "fs";
-import { v2 } from "cloudinary";
-import sgMail from "@sendgrid/mail";
 
 const cloudinary = v2;
 const CLDRY_SECRET_PRE = "2pj_OP9d_GTj6xNh0ZYc_";
@@ -97,7 +97,7 @@ export default {
           console.error(error);
         });
       return resp.data;
-    } catch (error) {
+    } catch (error: any) {
       console.error(error.response?.data);
     }
   },
@@ -129,7 +129,7 @@ export default {
         }
       );
       console.log(resp.data);
-    } catch (error) {
+    } catch (error: any) {
       console.error(error.response?.data);
     }
   },
@@ -183,7 +183,7 @@ export default {
         statusCode: deleted.response.statusCode,
         success: deleted.response.statusCode === 204,
       };
-    } catch (error) {
+    } catch (error: any) {
       console.error(error.message);
       return {
         success: false,

@@ -1,11 +1,11 @@
-import { GraphQLServer } from "graphql-yoga";
-import UnparsedObject from "graphql-type-json";
-import Query from "./resolvers/query-resolvers";
-import Mutation from "./resolvers/mutation-resolvers";
-import context from "./context";
-import fileUpload from "express-fileupload";
-import streamifier from "streamifier";
 import { v2 } from "cloudinary";
+import fileUpload from "express-fileupload";
+import UnparsedObject from "graphql-type-json";
+import { GraphQLServer } from "graphql-yoga";
+import streamifier from "streamifier";
+import context from "./context";
+import Mutation from "./resolvers/mutation-resolvers";
+import Query from "./resolvers/query-resolvers";
 
 const cloudinary = v2;
 cloudinary.config({
@@ -49,7 +49,7 @@ const uploadCloudinary = async ({ stream, filename }: any): Promise<any> => {
   });
 };
 
-server.express.post("/upload", async (req, res) => {
+server.express.post("/upload_image", async (req, res) => {
   const { files } = req;
   if (files && files.single) {
     const { data, name } = files.single as fileUpload.UploadedFile;
